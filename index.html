@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bernard · 个人简历</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@200;300;400;500&family=Noto+Serif+SC:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --white: #ffffff;
+  --off-white: #fbfbfd;
+  --text: #1d1d1f;
+  --secondary: #6e6e73;
+  --tertiary: #a1a1a6;
+  --divider: #d2d2d7;
+  --accent: #0071e3;
+  --light-blue: #f5f5f7;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--off-white);
+  color: var(--text);
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* NAV */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  height: 52px;
+  background: rgba(251,251,253,0.82);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+}
+.nav-name { font-size: 14px; font-weight: 300; color: var(--text); letter-spacing: 0.02em; }
+.nav-links { display: flex; gap: 32px; list-style: none; }
+.nav-links a { font-size: 13px; font-weight: 300; color: var(--secondary); text-decoration: none; letter-spacing: 0.01em; transition: color 0.2s; }
+.nav-links a:hover { color: var(--text); }
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 120px 40px 100px;
+  position: relative;
+}
+
+/* ── HERO LAYOUT ── */
+.hero-profile-row {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  margin-bottom: 72px;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.1s ease forwards;
+}
+
+/* Avatar */
+.hero-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: #e8e8ed;
+  border: 1.5px dashed #c7c7cc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.25s, background 0.25s, transform 0.2s;
+  overflow: hidden;
+  flex-shrink: 0;
+  position: relative;
+}
+.hero-avatar:hover {
+  border-color: var(--accent);
+  background: #e4edf9;
+  transform: scale(1.04);
+}
+.hero-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+.hero-avatar svg { opacity: 0.45; }
+
+.hero-profile-text { text-align: left; }
+.hero-name {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 26px;
+  font-weight: 200;
+  letter-spacing: 0.02em;
+  color: var(--text);
+  line-height: 1.2;
+  margin-bottom: 5px;
+}
+.hero-role {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--secondary);
+  letter-spacing: 0.04em;
+  margin-bottom: 5px;
+}
+.hero-phone {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--tertiary);
+  letter-spacing: 0.06em;
+}
+.hero-phone a { color: inherit; text-decoration: none; transition: color 0.2s; }
+.hero-phone a:hover { color: var(--accent); }
+
+/* upload hint */
+.avatar-hint {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: 400;
+  color: var(--tertiary);
+  letter-spacing: 0.05em;
+  text-align: center;
+  padding: 4px;
+  opacity: 0;
+  transition: opacity 0.2s;
+  background: rgba(232,232,237,0.85);
+  border-radius: 50%;
+}
+.hero-avatar:hover .avatar-hint { opacity: 1; }
+.hero-eyebrow {
+  font-size: 13px; font-weight: 300; color: var(--accent);
+  letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 28px;
+  opacity: 0; animation: fadeUp 0.8s 0.1s ease forwards;
+}
+.hero-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: clamp(52px, 8vw, 96px);
+  font-weight: 200; line-height: 1.05; letter-spacing: -0.025em;
+  color: var(--text); margin-bottom: 40px;
+  opacity: 0; animation: fadeUp 0.9s 0.2s ease forwards;
+}
+.hero-title em { font-style: normal; color: var(--accent); }
+.hero-subtitle {
+  font-size: clamp(16px, 2vw, 21px); font-weight: 200; color: var(--secondary);
+  line-height: 1.6; max-width: 600px; margin-bottom: 52px;
+  opacity: 0; animation: fadeUp 0.9s 0.35s ease forwards;
+}
+.hero-cta {
+  display: flex; gap: 16px; justify-content: center;
+  opacity: 0; animation: fadeUp 0.9s 0.32s ease forwards;
+}
+.btn-fill {
+  background: var(--accent); color: #fff; border: none;
+  border-radius: 980px; padding: 13px 28px; font-size: 14px; font-weight: 300;
+  cursor: pointer; font-family: inherit; letter-spacing: 0.01em;
+  transition: background 0.2s, transform 0.15s;
+}
+.btn-fill:hover { background: #0077ed; transform: scale(1.02); }
+.btn-ghost {
+  background: transparent; color: var(--accent); border: 1px solid var(--accent);
+  border-radius: 980px; padding: 13px 28px; font-size: 14px; font-weight: 300;
+  cursor: pointer; font-family: inherit; letter-spacing: 0.01em;
+  transition: background 0.2s, transform 0.15s;
+}
+.btn-ghost:hover { background: rgba(0,113,227,0.06); transform: scale(1.02); }
+.scroll-hint {
+  position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  opacity: 0; animation: fadeIn 1s 1.2s ease forwards;
+}
+.scroll-hint span { font-size: 11px; font-weight: 300; color: var(--tertiary); letter-spacing: 0.1em; text-transform: uppercase; }
+.scroll-arrow {
+  width: 18px; height: 18px;
+  border-right: 1px solid var(--tertiary); border-bottom: 1px solid var(--tertiary);
+  transform: rotate(45deg); animation: bounce 2s infinite;
+}
+
+/* SHARED SECTION */
+section { padding: 120px 40px; max-width: 1080px; margin: 0 auto; }
+.full-bleed { max-width: none; padding-left: 0; padding-right: 0; }
+.section-label { font-size: 12px; font-weight: 400; color: var(--accent); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 20px; }
+.section-heading {
+  font-family: 'Noto Serif SC', serif;
+  font-size: clamp(28px, 4vw, 48px); font-weight: 200;
+  line-height: 1.15; letter-spacing: -0.02em; color: var(--text); margin-bottom: 24px;
+}
+.section-body { font-size: 17px; font-weight: 300; color: var(--secondary); line-height: 1.8; max-width: 680px; }
+
+hr.divider { border: none; border-top: 1px solid var(--divider); margin: 0 40px; }
+
+/* STATS BAND */
+.stats-band { background: var(--text); padding: 80px 40px; }
+.stats-inner {
+  max-width: 1080px; margin: 0 auto;
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 1px; background: rgba(255,255,255,0.1);
+}
+.stat-cell { background: var(--text); padding: 48px 40px; text-align: center; }
+.stat-num {
+  font-family: 'Noto Serif SC', serif;
+  font-size: clamp(36px, 5vw, 64px); font-weight: 200;
+  color: #fff; letter-spacing: -0.03em; display: block; margin-bottom: 12px;
+}
+.stat-label { font-size: 13px; font-weight: 300; color: rgba(255,255,255,0.5); letter-spacing: 0.06em; }
+
+/* SKILLS GRID */
+.skills-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 1px; background: var(--divider);
+  border: 1px solid var(--divider); border-radius: 20px; overflow: hidden; margin-top: 72px;
+}
+.skill-card { background: var(--white); padding: 52px 48px; transition: background 0.3s; }
+.skill-card:hover { background: var(--light-blue); }
+.skill-number { font-family: 'Noto Serif SC', serif; font-size: 11px; font-weight: 300; color: var(--tertiary); letter-spacing: 0.1em; margin-bottom: 32px; display: block; }
+.skill-title { font-size: 22px; font-weight: 300; color: var(--text); margin-bottom: 16px; letter-spacing: -0.01em; line-height: 1.3; }
+.skill-en { font-size: 11px; font-weight: 300; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 20px; display: block; }
+.skill-desc { font-size: 14px; font-weight: 300; color: var(--secondary); line-height: 1.75; }
+
+/* EXPERIENCE */
+.exp-list { margin-top: 80px; }
+.exp-row {
+  display: grid; grid-template-columns: 200px 1fr; gap: 80px;
+  padding: 64px 0; border-top: 1px solid var(--divider);
+  opacity: 0; transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.exp-row.visible { opacity: 1; transform: translateY(0); }
+.exp-period { font-size: 13px; font-weight: 300; color: var(--tertiary); letter-spacing: 0.04em; margin-bottom: 8px; }
+.exp-co { font-size: 14px; font-weight: 400; color: var(--text); }
+.exp-role-title {
+  font-family: 'Noto Serif SC', serif; font-size: 26px; font-weight: 200;
+  color: var(--text); letter-spacing: -0.02em; margin-bottom: 24px; line-height: 1.25;
+}
+.exp-points { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; }
+.exp-points li {
+  font-size: 15px; font-weight: 300; color: var(--secondary);
+  line-height: 1.7; padding-left: 20px; position: relative;
+}
+.exp-points li::before {
+  content: ''; position: absolute; left: 0; top: 11px;
+  width: 5px; height: 1px; background: var(--tertiary);
+}
+.exp-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.exp-tag {
+  font-size: 12px; font-weight: 300; color: var(--accent);
+  background: rgba(0,113,227,0.07); border-radius: 980px;
+  padding: 5px 14px; letter-spacing: 0.02em;
+}
+
+/* PROJECTS */
+.projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 72px; }
+.proj-card {
+  background: var(--white); border-radius: 20px; padding: 48px 40px;
+  border: 1px solid var(--divider);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.proj-card:hover { transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.08); }
+.proj-icon { font-size: 28px; margin-bottom: 28px; display: block; }
+.proj-title { font-size: 18px; font-weight: 300; color: var(--text); margin-bottom: 16px; line-height: 1.35; letter-spacing: -0.01em; }
+.proj-body { font-size: 13px; font-weight: 300; color: var(--secondary); line-height: 1.75; margin-bottom: 24px; }
+.proj-result { font-size: 13px; font-weight: 400; color: var(--text); border-top: 1px solid var(--divider); padding-top: 20px; }
+.proj-result strong { color: var(--accent); font-weight: 400; }
+
+/* VISION */
+.vision-section { background: var(--light-blue); }
+.vision-inner {
+  max-width: 1080px; margin: 0 auto; padding: 120px 40px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 120px; align-items: center;
+}
+.vision-quote {
+  font-family: 'Noto Serif SC', serif;
+  font-size: clamp(22px, 3vw, 34px); font-weight: 200;
+  line-height: 1.55; color: var(--text); letter-spacing: -0.01em;
+}
+.vision-quote em { font-style: normal; color: var(--accent); }
+.vision-details { display: flex; flex-direction: column; gap: 28px; }
+.vision-point { padding-left: 20px; border-left: 1px solid var(--divider); }
+.vision-point-title { font-size: 14px; font-weight: 400; color: var(--text); margin-bottom: 6px; }
+.vision-point-desc { font-size: 13px; font-weight: 300; color: var(--secondary); line-height: 1.7; }
+
+/* TAGS */
+.tags-section { text-align: center; }
+.tags-section .section-heading { margin: 0 auto 60px; text-align: center; }
+.tags-section .section-label { text-align: center; }
+.cloud { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; max-width: 800px; margin: 0 auto; }
+.cloud-tag {
+  font-size: 14px; font-weight: 300; color: var(--secondary);
+  border: 1px solid var(--divider); border-radius: 980px; padding: 10px 22px;
+  letter-spacing: 0.02em; transition: all 0.2s; cursor: default;
+}
+.cloud-tag:hover { border-color: var(--accent); color: var(--accent); background: rgba(0,113,227,0.04); }
+
+/* FOOTER */
+footer { background: var(--text); padding: 80px 40px; text-align: center; }
+.footer-name { font-family: 'Noto Serif SC', serif; font-size: 32px; font-weight: 200; color: #fff; letter-spacing: -0.02em; margin-bottom: 16px; }
+.footer-sub { font-size: 14px; font-weight: 300; color: rgba(255,255,255,0.45); letter-spacing: 0.06em; margin-bottom: 48px; }
+.footer-links { display: flex; justify-content: center; gap: 32px; list-style: none; }
+.footer-links a { font-size: 13px; font-weight: 300; color: rgba(255,255,255,0.4); text-decoration: none; transition: color 0.2s; letter-spacing: 0.04em; }
+.footer-links a:hover { color: #fff; }
+.footer-copy { margin-top: 48px; font-size: 12px; font-weight: 300; color: rgba(255,255,255,0.2); letter-spacing: 0.04em; }
+
+/* ANIMATIONS */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes bounce {
+  0%, 100% { transform: rotate(45deg) translateY(0); }
+  50% { transform: rotate(45deg) translateY(5px); }
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .skills-grid { grid-template-columns: 1fr; }
+  .projects-grid { grid-template-columns: 1fr; }
+  .stats-inner { grid-template-columns: repeat(2, 1fr); }
+  .exp-row { grid-template-columns: 1fr; gap: 20px; }
+  .vision-inner { grid-template-columns: 1fr; gap: 60px; }
+  nav { padding: 0 24px; }
+  .nav-links { display: none; }
+  section { padding: 80px 24px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-name">Bernard</span>
+  <ul class="nav-links">
+    <li><a href="#about">关于</a></li>
+    <li><a href="#experience">经历</a></li>
+    <li><a href="#projects">项目</a></li>
+    <li><a href="#vision">愿景</a></li>
+    <li><a href="#contact">联系</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero" id="about">
+
+  <!-- Profile card row -->
+  <div class="hero-profile-row">
+    <div class="hero-avatar" id="avatarEl">
+      <svg width="32" height="32" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="18" r="10" fill="#b0b0b8"/><ellipse cx="24" cy="40" rx="16" ry="10" fill="#b0b0b8"/></svg>
+      <div class="avatar-hint">点击上传</div>
+    </div>
+    <div class="hero-profile-text">
+      <div class="hero-name">Bernard</div>
+      <div class="hero-role">品牌运营专家 · Brand &amp; Growth · AI Operations</div>
+      <div class="hero-phone"><a href="tel:17370532001">17370532001</a></div>
+    </div>
+  </div>
+
+  <!-- Big tagline -->
+  <h1 class="hero-title">让流量成为<em>资产</em>，<br>让数据驱动<em>增长</em></h1>
+
+  <div class="hero-cta">
+    <button class="btn-ghost" onclick="document.getElementById('experience').scrollIntoView({behavior:'smooth'})">查看简历 ↓</button>
+  </div>
+
+  <div class="scroll-hint">
+    <span>向下探索</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="full-bleed">
+  <div class="stats-band">
+    <div class="stats-inner">
+      <div class="stat-cell"><span class="stat-num">3×</span><div class="stat-label">年营收增长</div></div>
+      <div class="stat-cell"><span class="stat-num">10×</span><div class="stat-label">单品牌业绩爆发</div></div>
+      <div class="stat-cell"><span class="stat-num">100+</span><div class="stat-label">赋能门店数量</div></div>
+      <div class="stat-cell"><span class="stat-num">50亿+</span><div class="stat-label">内容累计播放量</div></div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- CORE SKILLS -->
+<section>
+  <p class="section-label">Core Strengths</p>
+  <h2 class="section-heading">四大核心能力</h2>
+  <p class="section-body">从流量到转化，从内容到数据，构建可复制、可量化的增长体系。</p>
+  <div class="skills-grid">
+    <div class="skill-card">
+      <span class="skill-number">01</span>
+      <div class="skill-title">流量商业化</div>
+      <span class="skill-en">Traffic Monetization</span>
+      <p class="skill-desc">意图关键词 SEO 布局与 GEO 搜索权重优化，确保高精准流量主动流入差异化内容池。结合 AI 客服系统实现 24 小时线索承接与自动分配，将流量损耗降至最低。</p>
+    </div>
+    <div class="skill-card">
+      <span class="skill-number">02</span>
+      <div class="skill-title">内容工业化</div>
+      <span class="skill-en">Content Industrialization</span>
+      <p class="skill-desc">将内容生产标准化为可复制流水线，制定获客 → 进店 → 转化全链路 SOP，覆盖 100+ 门店统一执行。团队效率提升 20%，多门店标准动作稳定落地。</p>
+    </div>
+    <div class="skill-card">
+      <span class="skill-number">03</span>
+      <div class="skill-title">赋能型领导力</div>
+      <span class="skill-en">Enabling Leadership</span>
+      <p class="skill-desc">以「合伙人制」替代雇员思维，配套认知培训与行为引导，激活一线自驱力。以「利益 + 影响力象限图」突破变革阻力，推动数智化工具在基层落地。</p>
+    </div>
+    <div class="skill-card">
+      <span class="skill-number">04</span>
+      <div class="skill-title">数据驱动决策</div>
+      <span class="skill-en">Data-Driven Optimization</span>
+      <p class="skill-desc">搭建「数据采集 → AI 决策 → 执行反馈」智能闭环，整合平台 / 留资 / 到店多维数据实现实时监控。主导集团数智化转型 BP，构建数据飞轮机制。</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <p class="section-label">Experience</p>
+  <h2 class="section-heading">工作经历</h2>
+  <p class="section-body">五年间横跨健身、汽车后市场、内容传媒、新材料四大行业，持续在实战中构建增长方法论。</p>
+  <div class="exp-list">
+
+    <div class="exp-row">
+      <div class="exp-left">
+        <div class="exp-period">2024.10 — 2025.12</div>
+        <div class="exp-co">杭州乐健体育文化</div>
+      </div>
+      <div class="exp-right">
+        <div class="exp-role-title">品牌负责人</div>
+        <ul class="exp-points">
+          <li>带领市场部 8–10 人团队，围绕「用户价值穿透商业价值」拉齐团队目标与集团战略</li>
+          <li>提出并落地店长合伙人机制，将雇员思维转化为经营者思维，店长自驱力显著增强</li>
+          <li>从零搭建系统性门店培训体系，覆盖工具使用、服务规范等核心模块</li>
+          <li>独立完成集团数智化转型 BP 框架设计，构建「数据采集 → AI 规划 → 教练执行 → 结果反馈」完整闭环，方案获公司认可并启动落地</li>
+        </ul>
+        <div class="exp-tags">
+          <span class="exp-tag">团队效率 +20%</span>
+          <span class="exp-tag">合伙人机制落地</span>
+          <span class="exp-tag">AI Agent 训练计划</span>
+          <span class="exp-tag">数据飞轮设计</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-row">
+      <div class="exp-left">
+        <div class="exp-period">2023.05 — 2024.09</div>
+        <div class="exp-co">XPEL 汽车保护膜</div>
+      </div>
+      <div class="exp-right">
+        <div class="exp-role-title">项目 PM · 区域运营赋能</div>
+        <ul class="exp-points">
+          <li>负责江浙、湖北、广东等省份 80+ 门店日常运营与业务赋能</li>
+          <li>搭建「素材产出 + 精准投放 + GEO 搜索排名」线上获客链路，利用大模型优化核心地区搜索权重至首位</li>
+          <li>引入 AI 客服系统与「业务高手分身」模型，实现线索 24 小时承接，拉平门店谈单水平</li>
+          <li>建立数据汇总与智能汇报系统，整合平台数据、留资、到店等核心指标，实时监控驱动决策</li>
+          <li>梳理并落地获客 → 进店 → 转化全链路 SOP，完成 100+ 门店工具分发与业务培训</li>
+        </ul>
+        <div class="exp-tags">
+          <span class="exp-tag">年营收 2000万 → 6000万</span>
+          <span class="exp-tag">全国行业 TOP 3</span>
+          <span class="exp-tag">80+ 门店网络</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-row">
+      <div class="exp-left">
+        <div class="exp-period">2022.03 — 2023.05</div>
+        <div class="exp-co">椰子车改</div>
+      </div>
+      <div class="exp-right">
+        <div class="exp-role-title">运营负责人</div>
+        <ul class="exp-points">
+          <li>针对奔驰 S 级（身份型）与 V 级（功能型）两类高净值客群制定差异化内容策略</li>
+          <li>S 级采用「情怀 + 专业」路径，降低商业感，深度专业内容建立信任，缩短决策链</li>
+          <li>V 级采用「未来场景提前化 + 强前后反差」路径，沉浸式展示使用场景，激发留资欲望</li>
+          <li>意图关键词 SEO 布局，打通「精准搜索 → 差异化内容 → 咨询留资」获客闭环</li>
+        </ul>
+        <div class="exp-tags">
+          <span class="exp-tag">S 级业绩 ×10</span>
+          <span class="exp-tag">月营收 10万 → 150万</span>
+          <span class="exp-tag">V 级业绩 +30%</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- PROJECTS -->
+<section id="projects">
+  <p class="section-label">Projects</p>
+  <h2 class="section-heading">代表项目</h2>
+  <p class="section-body">三个不同行业的增长案例，呈现完整的商业闭环思维。</p>
+  <div class="projects-grid">
+    <div class="proj-card">
+      <span class="proj-icon">🚀</span>
+      <div class="proj-title">XPEL 区域年营收<br>三倍增长工程</div>
+      <p class="proj-body">覆盖 4 省 80+ 门店，构建「品牌效应吃存量 + 线上增量体系打增量」双引擎。整合 GEO 优化、AI 客服、数据驾驶舱，两年三倍增长。</p>
+      <div class="proj-result">年营收 <strong>2000万 → 6000万</strong>，全国 <strong>TOP 3</strong></div>
+    </div>
+    <div class="proj-card">
+      <span class="proj-icon">⚡</span>
+      <div class="proj-title">奔驰 S/V 级差异化<br>营销十倍爆发</div>
+      <p class="proj-body">分析高净值客群消费心理差异，双线策略结合意图关键词 SEO 布局，打通精准搜索流量到留资转化的完整路径。</p>
+      <div class="proj-result">S 级月营收 <strong>10万 → 150万</strong>，V 级 <strong>+30%</strong></div>
+    </div>
+    <div class="proj-card">
+      <span class="proj-icon">🏋️</span>
+      <div class="proj-title">乐健体育<br>数智化转型蓝图</div>
+      <p class="proj-body">独立设计集团数智化转型 BP，引入 AI Agent 生成个性化训练计划，以会员数据反哺课程研发，建立数据飞轮机制。</p>
+      <div class="proj-result">方案获批落地，探索 <strong>AI × 健身</strong>行业创新</div>
+    </div>
+  </div>
+</section>
+
+<!-- VISION -->
+<div class="full-bleed vision-section" id="vision">
+  <div class="vision-inner">
+    <div class="vision-quote">
+      「把产品当作<em>一件作品</em>来打磨，<br>追求极致、真诚对待用户，<br>与用户<em>交朋友</em>。」
+    </div>
+    <div class="vision-details">
+      <div class="vision-point">
+        <div class="vision-point-title">极致产品主义</div>
+        <div class="vision-point-desc">渴望在研发阶段就把产品当成一件作品，追求与众不同，拒绝平庸。</div>
+      </div>
+      <div class="vision-point">
+        <div class="vision-point-title">用户第一</div>
+        <div class="vision-point-desc">一切以用户为中心，真诚对待用户，与用户成为朋友而非纯粹交易关系。</div>
+      </div>
+      <div class="vision-point">
+        <div class="vision-point-title">跨界融合</div>
+        <div class="vision-point-desc">软件 × 硬件 × 互联网跨界融合，全链路拉通提效，高效率商业模式驱动无限进步。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- SKILL TAGS -->
+<section class="tags-section">
+  <p class="section-label">Skills</p>
+  <h2 class="section-heading">技能全景</h2>
+  <div class="cloud">
+    <span class="cloud-tag">SEO / GEO 优化</span>
+    <span class="cloud-tag">AI 工具落地</span>
+    <span class="cloud-tag">流量商业化</span>
+    <span class="cloud-tag">内容策略</span>
+    <span class="cloud-tag">SOP 标准化</span>
+    <span class="cloud-tag">团队管理</span>
+    <span class="cloud-tag">数据驱动</span>
+    <span class="cloud-tag">To B 赋能</span>
+    <span class="cloud-tag">变革管理</span>
+    <span class="cloud-tag">抖音 / 小红书</span>
+    <span class="cloud-tag">大模型应用</span>
+    <span class="cloud-tag">短视频编导</span>
+    <span class="cloud-tag">用户分层运营</span>
+    <span class="cloud-tag">合伙人机制</span>
+    <span class="cloud-tag">商业闭环设计</span>
+    <span class="cloud-tag">区域渠道管理</span>
+    <span class="cloud-tag">AI Agent</span>
+    <span class="cloud-tag">数智化转型</span>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="footer-name">Bernard</div>
+  <div class="footer-sub">品牌运营专家 · Brand · Growth · AI Operations · 开放新机会</div>
+  <ul class="footer-links">
+    <li><a href="tel:17370532001">📞 17370532001</a></li>
+    <li><a href="#">下载简历</a></li>
+    <li><a href="#">领英主页</a></li>
+  </ul>
+  <div class="footer-copy">© 2025 · Bernard · 个人简历网站</div>
+</footer>
+
+<script>
+const rows = document.querySelectorAll('.exp-row');
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+  });
+}, { threshold: 0.15 });
+rows.forEach(r => obs.observe(r));
+
+// Avatar upload
+const avatarEl = document.getElementById('avatarEl');
+avatarEl.addEventListener('click', () => {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'image/*';
+  input.onchange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      avatarEl.innerHTML = `<img src="${ev.target.result}" alt="头像">`;
+    };
+    reader.readAsDataURL(file);
+  };
+  input.click();
+});
+</script>
+</body>
+</html>
